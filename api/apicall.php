@@ -2,7 +2,7 @@
 
     $keyword = urlencode($_POST['search_input']);
 
-    $url_api_shopee = 'https://shopee.co.id/api/v2/search_items?by=relevancy&limit=40&order=desc&keyword='.$keyword;
+    $url_api_shopee = 'https://shopee.co.id/api/v2/search_items?by=relevancy&limit=20&order=desc&keyword='.$keyword;
     
     
     // $data_pencarian = minta($url_api_shopee);
