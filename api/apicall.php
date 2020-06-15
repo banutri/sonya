@@ -2,7 +2,7 @@
 
     $keyword = urlencode($_POST['search_input']);
 
-    $url_api_shopee = 'https://shopee.co.id/api/v2/search_items?by=relevancy&limit=10&order=desc&keyword='.$keyword;
+    $url_api_shopee = 'https://shopee.co.id/api/v2/search_items?by=relevancy&limit=15&order=desc&keyword='.$keyword;
     
     
     // $data_pencarian = minta($url_api_shopee);
@@ -24,32 +24,35 @@
         $data = json_decode(get($url)); // memanggil api shopee
         $items = $data->items;
 
-        $tampung_id=[]; // nanti untuk menampung shopid dan itemid
+        // $tampung_id=[]; // nanti untuk menampung shopid dan itemid
+
+        $tampung_item=[];
 
         // start mencari itemid dan shopid
         foreach($items as $v)
         {
             if($v->adsid==NULL)
             {
-                array_push($tampung_id,array(
-                    'itemid'=>$v->itemid,
-                    'shopid'=>$v->shopid
-                ));
+                $url_get_detail = 'https://shopee.co.id/api/v2/item/get?itemid='.$v->itemid.'&shopid='.$v->shopid;
+
+                $data_detail = json_decode(get($url_get_detail));
+
+                array_push($tampung_item, $data_detail);
             }
         }
         // end mencari itemid dan shopid
 
-        $tampung_item=[];
+        
 
         // start mencari detail item
-        foreach($tampung_id as $v)
-        {
-            $url_get_detail = 'https://shopee.co.id/api/v2/item/get?itemid='.$v['itemid'].'&shopid='.$v['shopid'];
-            $data_detail = json_decode(get($url_get_detail));
-            array_push($tampung_item, $data_detail);
+        // foreach($tampung_id as $v)
+        // {
+            
+        //     $data_detail = json_decode(get($url_get_detail));
+        //     array_push($tampung_item, $data_detail);
 
 
-        }
+        // }
         // end mencari detail item
         
         // return $tampung_id;
