@@ -1,5 +1,7 @@
 <?php
 
+session_write_close();
+
     $keyword = urlencode($_POST['search_input']);
 
     $orderby = 'relevancy';
@@ -56,7 +58,7 @@
         foreach($tampung_id as $vitem)
         {
             $url_get_detail = 'https://shopee.co.id/api/v2/item/get?itemid='.$vitem['itemid'].'&shopid='.$vitem['shopid'];
-            $url_get_toko = 'https://shopee.co.id/api/v2/shop/get?is_brief=1&shopid='.$vitem['shopid'];
+            $url_get_toko = 'https://shopee.co.id/api/v2/shop/get?shopid='.$vitem['shopid'];
 
             $data_detail = json_decode(get($url_get_detail));
             $data_detail = $data_detail->item;
@@ -67,8 +69,10 @@
             array_push($tampung_item, array(
                 'itemid'=>$data_detail->itemid,
                 'shopid'=>$data_detail->shopid,
+                'shopicon'=>$data_toko->portrait,
+                'shopstar'=>$data_toko->total_avg_star,
                 'username'=>$data_toko->username,
-                'name'=>$data_detail->name,
+                'name'=>ucwords(strtolower($data_detail->name)),
                 'price'=>remove_last_number($data_detail->price),
                 'image'=>$data_detail->images[0]
                 
