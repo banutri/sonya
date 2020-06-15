@@ -2,16 +2,14 @@
 
     $keyword = urlencode($_POST['search_input']);
 
-    $url_api_shopee = 'https://shopee.co.id/api/v2/search_items?by=relevancy&limit=20&page_type=search&version=2&order=desc&keyword='.$keyword;
+    $orderby = 'relevancy';
+    $limit = 20;
+    $price_min = 50000;
+    $price_max = 100000;
+
+    $url_api_shopee = 'https://shopee.co.id/api/v2/search_items?by='.$orderby.'&limit=20&price_min='.$price_min.'&price_max='.$price_max.'&keyword='.$keyword;
     
     
-    // $data_pencarian = minta($url_api_shopee);
-
-    // $data_pencarian= json_decode($data_pencarian)->items;
-
-    // echo json_encode($data_pencarian);
-
-    // membersihkan data dari shopee supaya rapih
 
 
 
@@ -45,7 +43,7 @@
                 //     'image'=>$data_detail->images[0]
                     
                 // ));
-                
+
                 array_push($tampung_id, array('itemid'=>$v->itemid,'shopid'=>$v->shopid));
                 
             }
@@ -58,12 +56,18 @@
         foreach($tampung_id as $vitem)
         {
             $url_get_detail = 'https://shopee.co.id/api/v2/item/get?itemid='.$vitem['itemid'].'&shopid='.$vitem['shopid'];
+            $url_get_toko = 'https://shopee.co.id/api/v2/shop/get?is_brief=1&shopid='.$vitem['shopid'];
+
             $data_detail = json_decode(get($url_get_detail));
             $data_detail = $data_detail->item;
+
+            $data_toko = json_decode(get($url_get_toko));
+            $data_toko = $data_toko->data->account;
 
             array_push($tampung_item, array(
                 'itemid'=>$data_detail->itemid,
                 'shopid'=>$data_detail->shopid,
+                'username'=>$data_toko->username,
                 'name'=>$data_detail->name,
                 'price'=>remove_last_number($data_detail->price),
                 'image'=>$data_detail->images[0]
@@ -78,8 +82,8 @@
 
             
     
-            // echo json_encode($tampung_item);
-            var_dump ($tampung_item);
+            echo json_encode($tampung_item);
+            // var_dump ($tampung_item);
 
     }
 

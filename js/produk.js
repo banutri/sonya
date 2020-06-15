@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+    
     $('#search-button').on('click',function(){
         var search_input = $('#search-input').val();
         insert_ke_product_list(search_input);
