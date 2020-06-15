@@ -48,7 +48,7 @@ function insert_ke_product_list(data)
     $('#product-list').html('');
     $.each(data, function (i, v) { 
          $('#product-list').append(`
-         <div class="col-4">
+         <div class="col-sm-4">
          <div class="card mb-4 shadow-sm">
                 
                 <div class="thubmnail my-2" style="background-image: url('https://cf.shopee.co.id/file/`+v.image+`');">
