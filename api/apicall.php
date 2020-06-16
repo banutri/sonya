@@ -1,6 +1,6 @@
 <?php
 
-session_write_close();
+
 
     $keyword = urlencode($_POST['search_input']);
 
@@ -65,7 +65,7 @@ session_write_close();
 
             $data_toko = json_decode(get($url_get_toko));
             $data_toko = $data_toko->data->account;
-
+            
             array_push($tampung_item, array(
                 'itemid'=>$data_detail->itemid,
                 'shopid'=>$data_detail->shopid,
