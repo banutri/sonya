@@ -1,4 +1,7 @@
 $(document).ready(function () {
+
+    $('#modal-detail').modal('show');
+
     // pencarian
     $('#search-button').on('click',function(){
         var search_input = $('#search-input').val();
@@ -26,6 +29,27 @@ $(document).ready(function () {
     // pencarian
 
 
+    // lihat detail barang
+    $('#product-list').on('click','.btn-lihat-detail',function(){
+        var itemid = $(this).data('item');
+        var shopid = $(this).data('shop');
+
+        var data_detail = $.ajax({
+            type: "post",
+            url: "api/detail.php",
+            data: {itemid:itemid,shopid:shopid},
+            dataType: "JSON",
+            success: function (response) {
+                console.log(response);
+                
+            }
+        });
+
+        
+    });
+    // lihat detail barang
+
+
 
     // animasi loading
     $(document).ajaxStart(function(){
@@ -50,19 +74,18 @@ function insert_ke_product_list(data)
     $.each(data, function (i, v) { 
          $('#product-list').append(`
          <div class="col-sm-4">
-         <div class="card mb-4 shadow-sm">
+         <div class="card mb-4 shadow-sm pb-4">
                 
                 <div class="thubmnail my-2" style="background-image: url('https://cf.shopee.co.id/file/`+v.image+`');">
 
                 </div>
                 <div class="card-body">
-                  <p class="card-text ">`+v.name.replace(/ +(?= )/g,'')+`</p>
+                  <p class="card-text ">`+cut_the_string(v.name)+`</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary btn-lihat-detail" data-item="`+v.itemid+`" data-shop="`+v.shopid+`">Detail</button>
                     </div>
-                    <small class="text-muted">9 mins</small>
+                    <p class="text-muted">Rp.`+angka_koma(v.price)+`</p>
                   </div>
                 </div>
               </div>
@@ -78,3 +101,26 @@ function get_data_pencarian(search_input)
     
     return hasil;
 }
+
+function cut_the_string(str)
+{
+    str = str.replace(/ +(?= )/g,'');
+    var maxlength = 75;
+    var length = str.length;
+    if(length>75)
+    {
+        var selisih = length-maxlength;
+        return str.slice(0,-selisih)+'...';
+    }
+    else
+    {
+        return str;
+    }
+}
+
+
+/// start function ubah angka koma
+function angka_koma(angka) {
+	return angka.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+///end function ubah angka koma
