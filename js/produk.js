@@ -56,7 +56,7 @@ function insert_ke_product_list(data)
 
                 </div>
                 <div class="card-body">
-                  <p class="card-text text-justify">`+v.name.replace(/ +(?= )/g,'')+`</p>
+                  <p class="card-text ">`+v.name.replace(/ +(?= )/g,'')+`</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
