@@ -4,9 +4,42 @@
 $itemid = $_POST['itemid'];
 $shopid = $_POST['shopid'];
 
-$url_toko = 'https://shopee.co.id/api/v2/item/get?itemid='.$itemid.'&shopid='.$shopid;
+// $itemid = 5716522705;
+// $shopid = 20481265;
 
-echo get($url_toko);
+
+
+echo json_encode(detail_item($itemid,$shopid));
+
+// detail_item();
+
+function detail_item($itemid,$shopid)
+{
+    
+    $url_toko = 'https://shopee.co.id/api/v2/shop/get?shopid='.$shopid;
+    $url_detail = 'https://shopee.co.id/api/v2/item/get?itemid='.$itemid.'&shopid='.$shopid;
+
+    $data_detail = json_decode(get($url_detail));
+    $data_detail = $data_detail->item;
+
+
+    $data_toko = json_decode(get($url_toko));
+    $data_toko = $data_toko->data->account;
+
+    $data_join = array(
+        'itemid'=>$data_detail->itemid,
+        'shopid'=>$data_detail->shopid,
+        'shopicon'=>$data_toko->portrait,
+        'shopstar'=>$data_toko->total_avg_star,
+        'username'=>$data_toko->username,
+        'description'=>$data_detail->description,
+        'name'=>ucwords(strtolower($data_detail->name)),
+        'price'=>remove_last_number($data_detail->price),
+        'image'=>$data_detail->images[0]
+    );
+
+    return $data_join;
+}
 
 
 function get($url)
@@ -34,6 +67,14 @@ function get($url)
         return $output;
     }
 
+    function remove_last_number($number)
+    {
+        $string = strval($number);
+        
+
+        return (int)substr($string,0,-5);
+
+    }
 
 
 
