@@ -4,14 +4,12 @@
 $itemid = $_POST['itemid'];
 $shopid = $_POST['shopid'];
 
-// $itemid = 5716522705;
-// $shopid = 20481265;
+
 
 
 
 echo json_encode(detail_item($itemid,$shopid));
 
-// detail_item();
 
 function detail_item($itemid,$shopid)
 {
