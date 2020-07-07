@@ -6,7 +6,7 @@
     // start pengaturan kriteria pecarian produk
     //
     $orderby = 'relevancy';
-    $limit = 20;
+    $limit = 21;
 
     // pengaturan harga minimum dan maximum berdasarkan keyword 'murah' atau 'mahal'
     // range ['mahal'= 100k - 200k] , ['murah'= 0-100k], ['mahal' dan 'murah' atau tidak keduanya= 0-200k]
@@ -37,7 +37,7 @@
 
     // alamat API shopee beserta parameter nya
     $keyword = urlencode($keyword); // melakukan konversi kata pencarian ke bentuk URL
-    $url_pencarian_shopee = 'https://shopee.co.id/api/v2/search_items?by='.$orderby.'&limit=20&price_min='.$price_min.'&price_max='.$price_max.'&keyword='.$keyword;
+    $url_pencarian_shopee = 'https://shopee.co.id/api/v2/search_items?by='.$orderby.'&limit='.$limit.'&price_min='.$price_min.'&price_max='.$price_max.'&keyword='.$keyword;
     //
 
 
